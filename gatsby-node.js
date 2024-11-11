@@ -60,6 +60,49 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       })
     })
   }
+
+  // 카테고리 페이지 생성
+  const categoryTemplate = path.resolve("./src/templates/category.js")
+  const categoriesResult = await graphql(`
+    query {
+      allMarkdownRemark {
+        group(field: { frontmatter: { category: SELECT } }) {
+          fieldValue
+          subcategories: group(
+            field: { frontmatter: { subcategory: SELECT } }
+          ) {
+            fieldValue
+          }
+        }
+      }
+    }
+  `)
+
+  if (categoriesResult.errors) {
+    throw categoriesResult.errors
+  }
+
+  categoriesResult.data.allMarkdownRemark.group.forEach(category => {
+    createPage({
+      path: `/categories/${category.fieldValue.toLowerCase()}`,
+      component: categoryTemplate,
+      context: {
+        category: category.fieldValue,
+      },
+    })
+
+    // Create subcategory pages
+    category.subcategories.forEach(subcategory => {
+      createPage({
+        path: `/categories/${category.fieldValue.toLowerCase()}/${subcategory.fieldValue.toLowerCase()}`,
+        component: categoryTemplate,
+        context: {
+          category: category.fieldValue,
+          subcategory: subcategory.fieldValue,
+        },
+      })
+    })
+  })
 }
 
 /**
@@ -104,7 +147,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     }
 
     type Social {
-      twitter: String
+      github: String
     }
 
     type MarkdownRemark implements Node {
@@ -116,6 +159,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       title: String
       description: String
       date: Date @dateformat
+      category: String
     }
 
     type Fields {

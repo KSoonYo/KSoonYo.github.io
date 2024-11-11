@@ -1,0 +1,4 @@
+code[class*="language-"],
+pre[class*="language-"] {
+  font-size: var(--fontSize-0);
+}
