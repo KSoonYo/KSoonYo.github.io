@@ -1,15 +1,26 @@
-import * as React from "react"
-import { Link, graphql } from "gatsby"
+import React from "react"
+import { graphql } from "gatsby"
+import Prism from "prismjs"
+import "prismjs/components/prism-markup" // markup 하이라이팅 추가
+import "prismjs/components/prism-css" // css 하이라이팅 추가
+import "prismjs/components/prism-yaml" // yaml 하이라이팅 추가
+import "prismjs/components/prism-json" // yaml 하이라이팅 추가
+import "prismjs/components/prism-typescript" // typescript 하이라이팅 추가
+import "prismjs/components/prism-python" // Python 하이라이팅 추가
+import "prismjs/components/prism-java" // Java 하이라이팅 추가
+import "prismjs/components/prism-csharp" // C# 하이라이팅 추가
+import "prismjs/plugins/unescaped-markup/prism-unescaped-markup" // markup 하이라이트용 플러그인
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
+import Bio from "../components/bio"
 import Seo from "../components/seo"
 
-const BlogPostTemplate = ({
-  data: { previous, next, site, markdownRemark: post },
-  location,
-}) => {
+const BlogPostTemplate = ({ data: { notionPage, site }, location }) => {
+  const { title, contentHtml } = notionPage
   const siteTitle = site.siteMetadata?.title || `Title`
+  React.useEffect(() => {
+    Prism.highlightAll() // 페이지 로드 후 Prism.js 초기화
+  }, [])
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -19,11 +30,10 @@ const BlogPostTemplate = ({
         itemType="http://schema.org/Article"
       >
         <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>{post.frontmatter.date}</p>
+          <h1 itemProp="headline">{title}</h1>
         </header>
         <section
-          dangerouslySetInnerHTML={{ __html: post.html }}
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
           itemProp="articleBody"
         />
         <hr />
@@ -31,83 +41,26 @@ const BlogPostTemplate = ({
           <Bio />
         </footer>
       </article>
-      <nav className="blog-post-nav">
-        <ul
-          style={{
-            display: `flex`,
-            flexWrap: `wrap`,
-            justifyContent: `space-between`,
-            listStyle: `none`,
-            padding: 0,
-          }}
-        >
-          <li>
-            {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
-              </Link>
-            )}
-          </li>
-          <li>
-            {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
-              </Link>
-            )}
-          </li>
-        </ul>
-      </nav>
     </Layout>
   )
 }
 
-export const Head = ({ data: { markdownRemark: post } }) => {
-  return (
-    <Seo
-      title={post.frontmatter.title}
-      description={post.frontmatter.description || post.excerpt}
-    />
-  )
+export const Head = ({ data: { notionPage } }) => {
+  return <Seo title={notionPage.title} />
 }
 
-export default BlogPostTemplate
-
-export const pageQuery = graphql`
-  query BlogPostBySlug(
-    $id: String!
-    $previousPostId: String
-    $nextPostId: String
-  ) {
+export const query = graphql`
+  query ($id: String!) {
     site {
       siteMetadata {
         title
       }
     }
-    markdownRemark(id: { eq: $id }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
-        description
-      }
-    }
-    previous: markdownRemark(id: { eq: $previousPostId }) {
-      fields {
-        slug
-      }
-      frontmatter {
-        title
-      }
-    }
-    next: markdownRemark(id: { eq: $nextPostId }) {
-      fields {
-        slug
-      }
-      frontmatter {
-        title
-      }
+    notionPage(id: { eq: $id }) {
+      title
+      contentHtml
     }
   }
 `
+
+export default BlogPostTemplate

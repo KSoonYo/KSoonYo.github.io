@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import Sidebar from "./sidebar"
+import "prismjs/themes/prism.css"
 
 const Layout = ({ location, title, children }) => {
   const rootPath = `${__PATH_PREFIX__}/`
@@ -25,7 +25,6 @@ const Layout = ({ location, title, children }) => {
     <div className="global-wrapper" data-is-root-path={isRootPath}>
       <header className="global-header">{header}</header>
       <main className="global-main">
-        <Sidebar />
         <section>{children}</section>
       </main>
       <footer>
@@ -36,7 +35,12 @@ const Layout = ({ location, title, children }) => {
         >
           © {new Date().getFullYear()}, Built with
         </span>
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
+        <a style={{ marginRight: "0.5rem" }} href="https://www.gatsbyjs.com">
+          Gatsby
+        </a>
+        <a href="https://developers.notion.com/docs/getting-started">
+          Notion API
+        </a>
       </footer>
     </div>
   )

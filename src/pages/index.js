@@ -1,15 +1,14 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Bio from "../components/bio"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const posts = data.allMarkdownRemark.nodes
+  const pages = data.allNotionPage.nodes
 
-  if (posts.length === 0) {
+  if (!pages || pages.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
         <p>{"There are no posts!"}</p>
@@ -21,11 +20,11 @@ const BlogIndex = ({ data, location }) => {
     <Layout location={location} title={siteTitle}>
       <Bio />
       <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
-          const title = post.frontmatter.title || post.fields.slug
+        {pages.map(page => {
+          const title = page.title || "Untitled"
 
           return (
-            <li key={post.fields.slug}>
+            <li key={page.id}>
               <article
                 className="post-list-item"
                 itemScope
@@ -33,20 +32,11 @@ const BlogIndex = ({ data, location }) => {
               >
                 <header>
                   <h2>
-                    <Link to={post.fields.slug} itemProp="url">
+                    <Link to={page.fields.slug} itemProp="url">
                       <span itemProp="headline">{title}</span>
                     </Link>
                   </h2>
-                  <small>{post.frontmatter.date}</small>
                 </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
               </article>
             </li>
           )
@@ -58,30 +48,21 @@ const BlogIndex = ({ data, location }) => {
 
 export default BlogIndex
 
-/**
- * Head export to define metadata for the page
- *
- * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
- */
 export const Head = () => <Seo title="All posts" />
 
 export const pageQuery = graphql`
-  {
+  query {
     site {
       siteMetadata {
         title
       }
     }
-    allMarkdownRemark(sort: { frontmatter: { date: DESC } }) {
+    allNotionPage {
       nodes {
-        excerpt
+        id
+        title
         fields {
           slug
-        }
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
-          title
-          description
         }
       }
     }

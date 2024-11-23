@@ -6,7 +6,7 @@
   KSoonYo Blog 
 </h1>
 
-powered by [Gatsby](https://www.gatsbyjs.com/)
+powered by [Gatsby](https://www.gatsbyjs.com/) [Notion API](https://developers.notion.com/docs/getting-started)
 
 started with https://github.com/gatsbyjs/gatsby-starter-blog
 

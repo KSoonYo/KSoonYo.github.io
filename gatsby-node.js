@@ -5,7 +5,11 @@
  */
 
 const path = require(`path`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+const {
+  fetchNotionPageContent,
+  renderNotionBlocks,
+  fetchNotionData,
+} = require("./utils/notion")
 
 // Define the template for blog post
 const blogPost = path.resolve(`./src/templates/blog-post.js`)
@@ -13,15 +17,17 @@ const blogPost = path.resolve(`./src/templates/blog-post.js`)
 /**
  * @type {import('gatsby').GatsbyNode['createPages']}
  */
-exports.createPages = async ({ graphql, actions, reporter }) => {
+exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  // Get all markdown blog posts sorted by date
+  // GraphQL로 모든 NotionPage 노드를 쿼리
   const result = await graphql(`
-    {
-      allMarkdownRemark(sort: { frontmatter: { date: ASC } }, limit: 1000) {
+    query {
+      allNotionPage {
         nodes {
           id
+          title
+          contentHtml
           fields {
             slug
           }
@@ -30,94 +36,76 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     }
   `)
 
-  if (result.errors) {
-    reporter.panicOnBuild(
-      `There was an error loading your blog posts`,
-      result.errors
-    )
-    return
+  const pages = result.data?.allNotionPage?.nodes
+  if (!pages || pages.length === 0) {
+    throw new Error("There are no posts in Notion!")
   }
 
-  const posts = result.data.allMarkdownRemark.nodes
-
-  // Create blog posts pages
-  // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
-  // `context` is available in the template as a prop and as a variable in GraphQL
-
-  if (posts.length > 0) {
-    posts.forEach((post, index) => {
-      const previousPostId = index === 0 ? null : posts[index - 1].id
-      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
-
-      createPage({
-        path: post.fields.slug,
-        component: blogPost,
-        context: {
-          id: post.id,
-          previousPostId,
-          nextPostId,
-        },
-      })
-    })
-  }
-
-  // 카테고리 페이지 생성
-  const categoryTemplate = path.resolve("./src/templates/category.js")
-  const categoriesResult = await graphql(`
-    query {
-      allMarkdownRemark {
-        group(field: { frontmatter: { category: SELECT } }) {
-          fieldValue
-          subcategories: group(
-            field: { frontmatter: { subcategory: SELECT } }
-          ) {
-            fieldValue
-          }
-        }
-      }
-    }
-  `)
-
-  if (categoriesResult.errors) {
-    throw categoriesResult.errors
-  }
-
-  categoriesResult.data.allMarkdownRemark.group.forEach(category => {
+  // 각 Notion 페이지에 대한 블로그 포스트 페이지 생성
+  pages.forEach(page => {
     createPage({
-      path: `/categories/${category.fieldValue.toLowerCase()}`,
-      component: categoryTemplate,
+      path: page.fields.slug,
+      component: blogPost,
       context: {
-        category: category.fieldValue,
+        id: page.id,
+        title: page.title,
+        contentHtml: page.contentHtml,
       },
     })
-
-    // Create subcategory pages
-    category.subcategories.forEach(subcategory => {
-      createPage({
-        path: `/categories/${category.fieldValue.toLowerCase()}/${subcategory.fieldValue.toLowerCase()}`,
-        component: categoryTemplate,
-        context: {
-          category: category.fieldValue,
-          subcategory: subcategory.fieldValue,
-        },
-      })
-    })
   })
+}
+
+exports.sourceNodes = async ({
+  actions,
+  createNodeId,
+  createContentDigest,
+}) => {
+  const { createNode } = actions
+
+  const response = await fetchNotionData()
+
+  const pages = response.results
+  if (pages.length === 0) {
+    throw new Error("No posts in Notion")
+  }
+
+  // 각 페이지를 Gatsby 노드로 변환
+  for (const page of pages) {
+    const nodeId = createNodeId(`NotionPage-${page.id}`)
+    const nodeContent = JSON.stringify(page)
+    // 페이지의 블록 콘텐츠 가져오기
+    const pageBlocks = await fetchNotionPageContent(page.id)
+
+    // 블록을 HTML로 변환
+    const contentHtml = renderNotionBlocks(pageBlocks)
+
+    createNode({
+      ...page,
+      id: nodeId,
+      parent: "",
+      children: [],
+      internal: {
+        type: "NotionPage", // 노드 타입 설정
+        content: nodeContent,
+        contentDigest: createContentDigest(page),
+      },
+      title: page.properties.Name?.title[0]?.plain_text || "Untitled",
+      contentHtml,
+    })
+  }
 }
 
 /**
  * @type {import('gatsby').GatsbyNode['onCreateNode']}
  */
-exports.onCreateNode = ({ node, actions, getNode }) => {
+exports.onCreateNode = ({ node, actions }) => {
   const { createNodeField } = actions
 
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-
+  if (node.internal.type === "NotionPage") {
     createNodeField({
-      name: `slug`,
       node,
-      value,
+      name: "slug",
+      value: `/blog/${node.id}`,
     })
   }
 }

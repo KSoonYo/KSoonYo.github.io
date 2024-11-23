@@ -8,8 +8,5 @@ import "./src/normalize.css"
 import "./src/style.css"
 import "./src/custom.css"
 
-// Highlighting for code blocks
-import "prismjs/themes/prism.css"
-
 // code block styles
 import "./src/code.css"

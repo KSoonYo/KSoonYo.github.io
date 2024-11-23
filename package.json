@@ -8,6 +8,9 @@
     "@fontsource-variable/montserrat": "^5.0.17",
     "@fontsource/merriweather": "^5.0.8",
     "@fontsource/pretendard": "^5.1.0",
+    "@notionhq/client": "^2.2.15",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
     "gatsby": "^5.13.7",
     "gatsby-plugin-feed": "^5.13.1",
     "gatsby-plugin-image": "^3.13.1",
@@ -31,7 +34,6 @@
     "gatsby",
     "KSoonYo"
   ],
-  "license": "0BSD",
   "repository": {
     "type": "git",
     "url": "https://github.com/KSoonYo/KSoonYo.github.io.git"

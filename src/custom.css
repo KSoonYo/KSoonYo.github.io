@@ -99,17 +99,6 @@
   margin: var(--spacing-0);
 }
 
-/* category classes */
-
-.category-list-item a {
-  color: var(--color-heading);
-  text-decoration-line: underline;
-}
-
-.gatsby-highlight {
-  margin-bottom: var(--spacing-8);
-}
-
 @media (max-width: 84rem) {
   .global-sidebar {
     position: relative;
