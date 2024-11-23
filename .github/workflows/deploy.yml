@@ -1,0 +1,38 @@
+name: Deploy Gatsby Blog
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * *" # 24시간마다 실행
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build Gatsby site
+        run: npm run build
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages # 배포할 브랜치 지정
+          publish_dir: ./public
