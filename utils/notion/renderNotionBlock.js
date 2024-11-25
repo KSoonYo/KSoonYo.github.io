@@ -50,12 +50,23 @@ const renderRichText = richTextArray => {
 
       if (textObj.type === "mention") {
         const title = `${textObj?.mention?.link_mention?.title ?? "Untitled"}`
-        if (textObj.href) {
-          text = `<a href="${textObj.href}">${title}</a>`
+        const preview = `${
+          textObj?.mention?.link_preview?.url ??
+          "Unrecognized external link preview"
+        }`
+        const url = textObj.href ?? "/"
+        switch (textObj.mention.type) {
+          case "link_mention":
+            text = `<a href="${url}">${title}</a>`
+            break
+          case "link_preview":
+            text = `<a href="${url}">link:${preview}</a>`
+            break
+          default:
+            text = `<a href="${url}">link:${"Unrecognized mention type"}</a>`
         }
         return text
       }
-      return ""
     })
     .join("") // 모든 텍스트를 하나의 문자열로 결합
 }
