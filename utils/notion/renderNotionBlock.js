@@ -13,7 +13,7 @@ const fetchChildBlocks = async blockId => {
   }
 }
 
-const renderRichText = richTextArray => {
+const renderRichText = (richTextArray, isMarkedUp = false) => {
   return richTextArray
     .map(textObj => {
       let text = ""
@@ -21,22 +21,26 @@ const renderRichText = richTextArray => {
         textObj.annotations
 
       if (textObj.type === "text") {
-        const content = textObj.text.content
-        const hasLeftBracket = content.includes("<")
-        const hasRightBracket = content.includes(">")
-
-        text = content.replace(/</g, "").replace(/>/g, "")
-
-        // bracket data 속성 추가
         let attributes = ""
-        if (hasLeftBracket) attributes += ' data-left-bracket="true"'
-        if (hasRightBracket) attributes += ' data-right-bracket="true"'
+        const content = textObj.text.content
+        if (!isMarkedUp) {
+          const hasLeftBracket = content.includes("<")
+          const hasRightBracket = content.includes(">")
+
+          text = content.replace(/</g, "").replace(/>/g, "")
+
+          // bracket data 속성 추가
+          if (hasLeftBracket) attributes += ' data-left-bracket="true"'
+          if (hasRightBracket) attributes += ' data-right-bracket="true"'
+
+          text = `<span${attributes}>${text}</span>`
+        } else {
+          text = textObj.text.content
+        }
 
         // 링크가 있을 경우 <a> 태그로 감싸기
         if (textObj.text.link) {
           text = `<a href="${textObj.text.link.url}"${attributes}>${text}</a>`
-        } else {
-          text = `<span${attributes}>${text}</span>`
         }
 
         if (bold) text = `<strong>${text}</strong>`
@@ -117,11 +121,12 @@ const renderBlock = async block => {
 
     // 코드 블록 처리
     case "code":
-      const codeContent = renderRichText(block.code.rich_text)
       const language = block.code.language || "plaintext" // 언어가 없으면 기본값으로 'plaintext'
       const markupLanguages = new Set(["html", "xml"])
+      const isMarkedUp = markupLanguages.has(language)
+      const codeContent = renderRichText(block.code.rich_text, isMarkedUp)
 
-      if (markupLanguages.has(language)) {
+      if (isMarkedUp) {
         return `<pre class="language-markup"><code class="language-markup"><!--${codeContent}--></code></pre>`
       }
       return `<pre class="language-${language}"><code class="language-${language}">${codeContent}</code></pre>`
