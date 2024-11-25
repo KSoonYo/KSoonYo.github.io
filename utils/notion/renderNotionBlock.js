@@ -1,3 +1,18 @@
+const { notion } = require("./client")
+
+// 특정 블록의 자식 블록 가져오기
+const fetchChildBlocks = async blockId => {
+  try {
+    const response = await notion.blocks.children.list({
+      block_id: blockId,
+    })
+    return response.results
+  } catch (error) {
+    console.error("Error fetching child blocks:", error)
+    return []
+  }
+}
+
 const renderRichText = richTextArray => {
   return richTextArray
     .map(textObj => {
@@ -5,19 +20,30 @@ const renderRichText = richTextArray => {
       const { bold, italic, underline, strikethrough, code } =
         textObj.annotations
 
-      if (bold) text = `<strong>${text}</strong>`
-      if (italic) text = `<em>${text}</em>`
-      if (underline) text = `<u>${text}</u>`
-      if (strikethrough) text = `<s>${text}</s>`
-      if (code) text = `<code>${text}</code>`
-
       if (textObj.type === "text") {
-        text = textObj.text.content
+        const content = textObj.text.content
+        const hasLeftBracket = content.includes("<")
+        const hasRightBracket = content.includes(">")
+
+        text = content.replace(/</g, "").replace(/>/g, "")
+
+        // bracket data 속성 추가
+        let attributes = ""
+        if (hasLeftBracket) attributes += ' data-left-bracket="true"'
+        if (hasRightBracket) attributes += ' data-right-bracket="true"'
 
         // 링크가 있을 경우 <a> 태그로 감싸기
         if (textObj.text.link) {
-          text = `<a href="${textObj.text.link.url}">${text}</a>`
+          text = `<a href="${textObj.text.link.url}"${attributes}>${text}</a>`
+        } else {
+          text = `<span${attributes}>${text}</span>`
         }
+
+        if (bold) text = `<strong>${text}</strong>`
+        if (italic) text = `<em>${text}</em>`
+        if (underline) text = `<u>${text}</u>`
+        if (strikethrough) text = `<s>${text}</s>`
+        if (code) text = `<code>${text}</code>`
 
         return text
       }
@@ -34,7 +60,7 @@ const renderRichText = richTextArray => {
     .join("") // 모든 텍스트를 하나의 문자열로 결합
 }
 
-const renderBlock = block => {
+const renderBlock = async block => {
   switch (block.type) {
     case "paragraph":
       return `<p>${
@@ -61,11 +87,17 @@ const renderBlock = block => {
           : ""
       }</h3>`
     case "bulleted_list_item":
+      // 자식 블록 처리
+      const childBlocks = await fetchChildBlocks(block.id)
+      let renderedChildren = []
+      if (Array.isArray(childBlocks) && childBlocks.length > 0) {
+        renderedChildren = await Promise.all(childBlocks.map(renderBlock))
+      }
       return `<li>${
         block.bulleted_list_item?.rich_text
           ? renderRichText(block.bulleted_list_item.rich_text)
           : ""
-      }</li>`
+      }<ul>${renderedChildren.join("")}</ul></li>`
     case "image":
       const imageUrl =
         block.image?.file?.url || block.image?.external?.url || ""
@@ -87,11 +119,12 @@ const renderBlock = block => {
       return "" // 알 수 없는 블록 타입은 빈 문자열 반환
   }
 }
-const renderNotionBlocks = blocks => {
+const renderNotionBlocks = async blocks => {
   if (!blocks || !Array.isArray(blocks)) {
     return "" // blocks가 null이거나 배열이 아니면 빈 문자열 반환
   }
-  return blocks.map(renderBlock).join("")
+  const renderedBlocks = await Promise.all(blocks.map(renderBlock))
+  return renderedBlocks.join("")
 }
 
 module.exports = { renderNotionBlocks }

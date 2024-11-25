@@ -1,3 +1,17 @@
+code {
+  background-color: bisque;
+  color: rgb(255, 64, 64);
+  padding: var(--spacing-1) var(--spacing-1);
+}
+
+[data-left-bracket="true"]::before {
+  content: "<";
+}
+
+[data-right-bracket="true"]::after {
+  content: ">";
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
   font-size: var(--fontSize-0);

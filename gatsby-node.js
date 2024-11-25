@@ -77,7 +77,7 @@ exports.sourceNodes = async ({
     const pageBlocks = await fetchNotionPageContent(page.id)
 
     // 블록을 HTML로 변환
-    const contentHtml = renderNotionBlocks(pageBlocks)
+    const contentHtml = await renderNotionBlocks(pageBlocks)
 
     createNode({
       ...page,

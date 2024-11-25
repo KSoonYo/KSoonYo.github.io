@@ -24,7 +24,12 @@ const BlogIndex = ({ data, location }) => {
           const title = page.title || "Untitled"
 
           return (
-            <li key={page.id}>
+            <li
+              key={page.id}
+              style={{
+                listStyle: "none",
+              }}
+            >
               <article
                 className="post-list-item"
                 itemScope
