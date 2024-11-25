@@ -62,7 +62,8 @@ html lang="ko"
   /body
 /html
 
-</span>--></code></pre><li><span>하지만 svg의 text 요소에는 말줄임표가 적용되어있지 않다.</span><ul></ul></li><img src="https://velog.velcdn.com/images/flashsoon/post/572806a1-e755-4433-8769-a313ee9e0d7b/image.png" alt="undefined" /><li><span>svg 태그에 적용할 수 있는 css 속성은 </span><code><span>span</span></code><span>이나 </span><code><span>div</span></code><span> 처럼 일반적인 DOM 요소에 적용할 수 있는 속성과 차이가 있기 때문에 스타일 속성을 그대로 적용할 수 없다!</span><ul></ul></li><p><span>그래서 구글에 검색을 해보면 </span><code><strong><span data-left-bracket="true" data-right-bracket="true">text</span></strong></code><span> 요소에 말줄임표 효과를 적용하기 위한 여러 글이 있는 것을 확인할 수 있다.</span></p><p></p><p><span>이번 글은 이러한 방법들 중 하나를 소개하는 글이다.
+</span>--></code></pre><li><span>하지만 svg의 text 요소에는 말줄임표가 적용되어있지 않다.</span><ul></ul></li><img src="https://velog.velcdn.com/images/flashsoon/post/572806a1-e755-4433-8769-a313ee9e0d7b/image.png" alt="undefined" /><li><span>svg 태그에 적용할 수 있는 css 속성은 </span><code><span>span</span></code><span>이나 </span><code><span>div</span></code><span> 처럼 일반적인 DOM 요소에 적용할 수 있는 속성과 차이가 있기 때문에 스타일 속성을 그대로 적용할 수 없다!</span><ul></ul></li><blockquote class="notion-quote"><span>✨ ** svg 요소 별 css 속성 정리표**
+https://css-tricks.com/svg-properties-and-css/</span></blockquote><p><span>그래서 구글에 검색을 해보면 </span><code><strong><span data-left-bracket="true" data-right-bracket="true">text</span></strong></code><span> 요소에 말줄임표 효과를 적용하기 위한 여러 글이 있는 것을 확인할 수 있다.</span></p><p></p><p><span>이번 글은 이러한 방법들 중 하나를 소개하는 글이다.
 (코드 예시는 Typescript로 작성함)</span></p><h1><span>설명</span></h1><h2><span>1. 함수 정의 및 매개변수</span></h2><pre class="language-typescript"><code class="language-typescript"><span>async function trimTextToFitWidth(
   textElement: SVGTextElement,
   maxWidth: number,
