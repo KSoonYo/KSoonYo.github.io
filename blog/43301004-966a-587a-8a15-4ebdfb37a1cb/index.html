@@ -19,7 +19,7 @@ Yes, it's resolved
 No, it's rejected</span></code></pre><p></p><pre class="language-bash"><code class="language-bash"><span>Promise A resolved!
 Yes, it's resolved</span></code></pre><p></p><p></p><pre class="language-bash"><code class="language-bash"><span>Promise A resolved!
 Yes, it's resolved
-Promise A rejected!</span></code></pre><p></p><p><span>정답은 3번</span></p><p></p><p><span>해설</span></p><li><span>setTimeout은 대표적인 비동기 함수</span><ul></ul></li><li><span>비동기 프로세스와 이벤트 루프에 의해 setTimeout이 처리되는 순서대로 호출된다.</span><ul></ul></li><li><span>위 예시에서는 Promise A를 resolve 처리한 함수가 먼저 호출되었다.</span><ul></ul></li><li><span>Promise A가 resolved 됨에 따라 then이 호출된다.</span><ul></ul></li><li><span>이후에 Promise A를 reject하는 함수가 호출되었으나, Promise A는 이미 상태가 </span><code><span>pending</span></code><span> 상태에서 </span><code><span>fullfilled</span></code><span> 상태가 되었으므로 Promise의 상태가 변경되지 않는다. → 따라서 catch 함수는 실행되지 않는다.</span><ul></ul></li><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/c0f702ff-a014-4f0e-ad20-182338fa1b2b/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=3f6698912732865264f1fc496ecf861429a70672e47133c5a0b1c8de218769dc&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>→ 만약 rejected되는 함수의 타이머 시간을 줄이면 어떻게 될까?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
+Promise A rejected!</span></code></pre><p></p><p><span>정답은 3번</span></p><p></p><p><span>해설</span></p><li><span>setTimeout은 대표적인 비동기 함수</span><ul></ul></li><li><span>비동기 프로세스와 이벤트 루프에 의해 setTimeout이 처리되는 순서대로 호출된다.</span><ul></ul></li><li><span>위 예시에서는 Promise A를 resolve 처리한 함수가 먼저 호출되었다.</span><ul></ul></li><li><span>Promise A가 resolved 됨에 따라 then이 호출된다.</span><ul></ul></li><li><span>이후에 Promise A를 reject하는 함수가 호출되었으나, Promise A는 이미 상태가 </span><code><span>pending</span></code><span> 상태에서 </span><code><span>fullfilled</span></code><span> 상태가 되었으므로 Promise의 상태가 변경되지 않는다. → 따라서 catch 함수는 실행되지 않는다.</span><ul></ul></li><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/c0f702ff-a014-4f0e-ad20-182338fa1b2b/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=92eb09bdc0bac883d1a4d601dc94008b502546a0003d84189985b63e87b5b84e&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>→ 만약 rejected되는 함수의 타이머 시간을 줄이면 어떻게 될까?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
   setTimeout(() = {
     console.log('Promise A resolved!')
     resolve()
@@ -57,7 +57,7 @@ a.then(() = {
 }).catch(() = {
   console.log('No, it\'s rejected')
 })
-</span></code></pre><p></p><p><span>fullfilled된 상태의 a가 출력된다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/edaca4d6-2384-472b-a167-66bb70967434/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=eda42af2be14b4dd7d344fe7080c6f36e9aed45c87e8cc71ae97991615b7e6b3&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>resolved된 Promise A 객체를 </span><code><span>reject()</span></code><span> 호출 후에 확인해보면?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
+</span></code></pre><p></p><p><span>fullfilled된 상태의 a가 출력된다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/edaca4d6-2384-472b-a167-66bb70967434/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=b9b802763355f5bd4b56a74595c595396e445b71cbb83b5a4ff230040767620a&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>resolved된 Promise A 객체를 </span><code><span>reject()</span></code><span> 호출 후에 확인해보면?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
   setTimeout(() = {
     console.log('Promise A resolved!')
     resolve()
@@ -76,7 +76,7 @@ a.then(() = {
 }).catch(() = {
   console.log('No, it\'s rejected')
 })
-</span></code></pre><p><span>역시나 </span><code><span>fullfilled</span></code><span> 상태의 Promise가 출력된다. 즉 이미 상태가 결정된 Promise는 다른 상태로 변경되지 않는다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7db5d987-e279-471d-9054-d17a32d53c70/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=208cd78e9cc6ccceb48d6f7696e058b91af114709f97ea7d107f198fe30d3468&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p></p><h1><span>Case2: then chain의 error catch 도달 범위</span></h1><p><span>실습 환경: javascript playground</span></p><p><a href="https://playcode.io/javascript">https://playcode.io/javascript</a></p><p><a href="https://www.jsplayground.dev/">https://www.jsplayground.dev/</a></p><p></p><p><span>아래와 같은 Promise 객체가 있고, 여러 개의 </span><code><span>then</span></code><span>  chain이 있다고 가정</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const promiseA = new Promise((resolve, reject) = {
+</span></code></pre><p><span>역시나 </span><code><span>fullfilled</span></code><span> 상태의 Promise가 출력된다. 즉 이미 상태가 결정된 Promise는 다른 상태로 변경되지 않는다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7db5d987-e279-471d-9054-d17a32d53c70/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=19afb4bf881324f95a7096523c17f39de0fc92b3999d47872d492af1c0c8bff6&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p></p><h1><span>Case2: then chain의 error catch 도달 범위</span></h1><p><span>실습 환경: javascript playground</span></p><p><a href="https://playcode.io/javascript">https://playcode.io/javascript</a></p><p><a href="https://www.jsplayground.dev/">https://www.jsplayground.dev/</a></p><p></p><p><span>아래와 같은 Promise 객체가 있고, 여러 개의 </span><code><span>then</span></code><span>  chain이 있다고 가정</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const promiseA = new Promise((resolve, reject) = {
   setTimeout(() = {
     console.log('Promise resolving . . .')
     resolve('123')
@@ -142,7 +142,7 @@ promiseA
 })
 
 
-</span></code></pre><p><span>이번에는 두번째 catch 블록에서 </span><code><span>The second Error!</span></code><span> 가 출력이 될까? </span></p><p><span>→ 안된다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/125f52e8-2725-4777-aa71-f5ef412e67be/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=d137e69cd043b68ca5cef5e387c6775bf4d4528e5f108bed84e1d6c17ba8cafd&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>원인) 이미 상태가 결정된 Promise는 다른 상태로 전이되지 않는다는 특성 때문</span></p><p><span>따라서 첫번재 then에서 발생한 에러에 의해 then이 반환한 Promise는 rejected 상태가 되고, 체이닝에서 가장 첫번째 catch 블록으로 이동하여 콜백이 실행된다. 해당 catch 블록에서는 더이상 다른 Promise를 반환하지 않으므로 두번째 .then으로 Promise가 실행되지 않는다.</span></p><p></p><p><span>그렇다면 catch 블록 안에서 또 에러를 발생시켜보면?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">promiseA
+</span></code></pre><p><span>이번에는 두번째 catch 블록에서 </span><code><span>The second Error!</span></code><span> 가 출력이 될까? </span></p><p><span>→ 안된다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/125f52e8-2725-4777-aa71-f5ef412e67be/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=e360adac61ff24e36939a2d404d646f9a7dcea702dd12f394b1a2963d6701b69&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>원인) 이미 상태가 결정된 Promise는 다른 상태로 전이되지 않는다는 특성 때문</span></p><p><span>따라서 첫번재 then에서 발생한 에러에 의해 then이 반환한 Promise는 rejected 상태가 되고, 체이닝에서 가장 첫번째 catch 블록으로 이동하여 콜백이 실행된다. 해당 catch 블록에서는 더이상 다른 Promise를 반환하지 않으므로 두번째 .then으로 Promise가 실행되지 않는다.</span></p><p></p><p><span>그렇다면 catch 블록 안에서 또 에러를 발생시켜보면?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">promiseA
 .then((data) = {
   console.log('resolved Data: ', data)
   throw new Error('The first Error')
@@ -158,7 +158,7 @@ promiseA
 .then(() = {
   throw new Error('The third Error!')
 })
-</span></code></pre><p><span>이번에는 두번째 catch 블록에서 에러 문구가 출력되는 것을 확인할 수 있다.</span></p><p></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/aef4f0d9-9372-4f89-97cf-5ea6ee40e841/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=8dcc519c91cbee855b485b7c7f867cf248686fd4f2b65456b92bce7b0e659852&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>이번에는 두번째 catch 블록을 지우고 catch 블록에서 resolve 상태의 Promise를 리턴해보자. 그리고 catch 문에는 then 체인이 걸려있다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">promiseA
+</span></code></pre><p><span>이번에는 두번째 catch 블록에서 에러 문구가 출력되는 것을 확인할 수 있다.</span></p><p></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/aef4f0d9-9372-4f89-97cf-5ea6ee40e841/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=8e6b5141a5bc91868b18c97eaffe23342635a077170c87134ab96234dc378e11&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>이번에는 두번째 catch 블록을 지우고 catch 블록에서 resolve 상태의 Promise를 리턴해보자. 그리고 catch 문에는 then 체인이 걸려있다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">promiseA
 .then((data) = {
   console.log('resolved Data: ', data)
   throw new Error('The first Error')
@@ -173,7 +173,7 @@ promiseA
 .then(() = {
   console.log('This is the thrid then block')
   throw new Error('The third Error!')
-})</span></code></pre><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/df0b0551-19e1-42a8-8d5b-2d23f69f5ddd/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=188a015850ca284fc3f5a9015f5e7693edc279cfddfc7f8cc49473d95e3a0b57&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>세번째 then 체인이 실행되는 것을 확인할 수 있다.</span></p><p><span>rejected 상태의 Promise는 어떨까? 해당 Promise 객체를 반환하는 다음 체이닝에 catch 블록이 있다고 가정해본다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const promiseA = new Promise((resolve, reject) = {
+})</span></code></pre><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/df0b0551-19e1-42a8-8d5b-2d23f69f5ddd/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=69f291ce54f6d66a229e26f7749e3838d144f9849242df06f334f9d2a5f3c8ad&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>세번째 then 체인이 실행되는 것을 확인할 수 있다.</span></p><p><span>rejected 상태의 Promise는 어떨까? 해당 Promise 객체를 반환하는 다음 체이닝에 catch 블록이 있다고 가정해본다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const promiseA = new Promise((resolve, reject) = {
   setTimeout(() = {
     console.log('Promise resolving . . .')
     resolve('123')
@@ -199,7 +199,7 @@ promiseA
 .catch(e = {
   console.error(e) // 에러 문구 출력
 })
-</span></code></pre><p></p><p><span>rejected Promise의 에러 문구 내용이 마지막 catch 블록에서 실행되는 것을 확인할 수 있다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/30371ba4-15ab-415d-a91f-25d28b1354e9/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=b8fdf741cd7a0577cea03ae5265cc5766143e8d7f1a002e8a6678c6400fe5110&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p></p><p><span>이제 여러 개의 catch 블록과 여러 개의 then 순서를 뒤바꾸면 코드가 매우 흥미로워진다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">promiseA
+</span></code></pre><p></p><p><span>rejected Promise의 에러 문구 내용이 마지막 catch 블록에서 실행되는 것을 확인할 수 있다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/30371ba4-15ab-415d-a91f-25d28b1354e9/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=ae93e89480799f87bc8bb01a76de38564dc82813af90d42e9c909e96f197c464&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p></p><p><span>이제 여러 개의 catch 블록과 여러 개의 then 순서를 뒤바꾸면 코드가 매우 흥미로워진다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">promiseA
 .then((data) = {
   console.log('resolved Data: ', data)
   throw new Error('The first Error')
@@ -220,10 +220,109 @@ promiseA
 .catch(e = {
   console.error(e)
 })
-</span></code></pre><p><span>실행 결과는 어떻게 될까?</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7ca64e89-baac-499d-a49b-0216fcb4776f/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T130201Z&X-Amz-Expires=3600&X-Amz-Signature=0595372b9faf16bdfbe5232f626b66590ae0ba6d0ce183da565817c41e1be6de&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>여기서 알 수 있는 중요한 사실은 catch가 catch 끼리만 체이닝이 되는 것이 아니라, catch 문이 실행되고 나서 resolved된 Promise가 반환되고, 다음 then 체인 블록으로 이동한다는 것이다.</span></p><p><span>→ </span><code><span>The first Error</span></code><span> 를 출력한 첫 번째 catch 블록이 실행되고 나서, 다음 catch 문이 아닌 then 체인 블록으로 이동한 것을 확인할 수 있다.</span></p><p></p><p></p><p></p><h2><span>summary</span></h2><p><span>요약하자면 이렇다.</span></p><li><span>Promise 체이닝 과정에서 에러가 발생하여 Promise 상태가 rejected되면 가장 가까운 catch 체이닝으로 이동한다.</span><ul></ul></li><li><span>catch 내부에서 에러가 발생하여 Promise가 rejected 상태가 되면 다음 catch로 이동한다.</span><ul></ul></li><li><span>이동한 catch에서 반환되는 Promise 객체의 상태에 따라 다음 체이닝으로 이동한다. → resolved(정확히는 </span><em><span>fulfilled</span></em><span> 상태)이면 then, rejected이면 catch</span><ul></ul></li></section><hr/><footer><div class="bio"><div data-gatsby-image-wrapper="" style="width:50px;height:50px" class="gatsby-image-wrapper bio-avatar"><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#f8f8f8;width:50px;height:50px;position:relative"></div><picture><source type="image/avif" data-srcset="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/a713c/profile.avif 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/322dd/profile.avif 100w" sizes="50px"/><source type="image/webp" data-srcset="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/9afd2/profile.webp 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/e64f1/profile.webp 100w" sizes="50px"/><img data-gatsby-image-ssr="" layout="fixed" data-main-image="" style="opacity:0" sizes="50px" decoding="async" loading="lazy" data-src="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg" data-srcset="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/93e3f/profile.jpg 100w" alt="Profile picture"/></picture><noscript><picture><source type="image/avif" srcSet="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/a713c/profile.avif 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/322dd/profile.avif 100w" sizes="50px"/><source type="image/webp" srcSet="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/9afd2/profile.webp 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/e64f1/profile.webp 100w" sizes="50px"/><img data-gatsby-image-ssr="" layout="fixed" data-main-image="" style="opacity:0" sizes="50px" decoding="async" loading="lazy" src="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg" srcSet="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/93e3f/profile.jpg 100w" alt="Profile picture"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div><p>Written by <strong>Kim Soon Yo</strong></p><p>IT 생태계의 플랑크톤</p><a style="width:fit-content" href="https://github.com/KSoonYo">Github Link</a></div></footer></article></section></main><footer><span style="margin-right:0.5rem">© <!-- -->2024<!-- -->, Built with</span><a style="margin-right:0.5rem" href="https://www.gatsbyjs.com">Gatsby</a><a href="https://developers.notion.com/docs/getting-started">Notion API</a></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blog/43301004-966a-587a-8a15-4ebdfb37a1cb/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
+</span></code></pre><p><span>실행 결과는 어떻게 될까?</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7ca64e89-baac-499d-a49b-0216fcb4776f/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134226Z&X-Amz-Expires=3600&X-Amz-Signature=4e4ee13bd05b0f6764509c1862d66ff992d52808bc2f608d238df2be599df0fa&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>여기서 알 수 있는 중요한 사실은 catch가 catch 끼리만 체이닝이 되는 것이 아니라, catch 문이 실행되고 나서 resolved된 Promise가 반환되고, 다음 then 체인 블록으로 이동한다는 것이다.</span></p><p><span>→ </span><code><span>The first Error</span></code><span> 를 출력한 첫 번째 catch 블록이 실행되고 나서, 다음 catch 문이 아닌 then 체인 블록으로 이동한 것을 확인할 수 있다.</span></p><p></p><p></p><p></p><h2><span>summary</span></h2><p><span>요약하자면 이렇다.</span></p><li><span>Promise 체이닝 과정에서 에러가 발생하여 Promise 상태가 rejected되면 가장 가까운 catch 체이닝으로 이동한다.</span><ul></ul></li><li><span>catch 내부에서 에러가 발생하여 Promise가 rejected 상태가 되면 다음 catch로 이동한다.</span><ul></ul></li><li><span>이동한 catch에서 반환되는 Promise 객체의 상태에 따라 다음 체이닝으로 이동한다. → resolved(정확히는 </span><em><span>fulfilled</span></em><span> 상태)이면 then, rejected이면 catch</span><ul></ul></li><p></p><p><span>Promise의 상태 전이는 아래 MDN 문서의 이미지를 참고할 수 있다.</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/9f966ff1-20fb-4435-b344-5a2a976c8147/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134227Z&X-Amz-Expires=3600&X-Amz-Signature=eb5390b570d167841d3666e56da543d4f327dadf5a9680aa471242379f2f09e2&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>이는 분명 프로그래밍 언어 관점에서 직관적인 동작 방식으로 보인다. 개인적으로는 일반적인 프로그래밍 언어의 </span><code><span>try-catch</span></code><span> 문의 동작과 </span><code><span>goto</span></code><span> 문이 떠오르는 대목</span></p><p></p><p><span> 하지만 체이닝이 길어지고 순서가 뒤바뀌면 코드의 실행 순서를 파악하기 어렵다는 것이 Promise 체이닝의 단점이며, 이는 </span><code><span>async/await</span></code><span> 문법이 추가된 배경으로 생각할 수 있다.</span></p><p></p><p><strong><span>따라서 만약 Promise 체이닝이 길어지는 상황이라면 </span></strong><code><strong><span>async/await</span></strong></code><strong><span> 문법으로 변환하거나, 코드 상으로 명확하게 실행 순서를 확인할 수 있도록 then과 catch 영역을 구분하여 체이닝을 하는 것이 Best Practice로 보여진다.</span></strong></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const promiseA = new Promise((resolve, reject) = {
+  setTimeout(() = {
+    console.log('Promise resolving . . .')
+    resolve('123')
+  }, 300)})
+
+
+promiseA
+// then zone
+.then((data) = {
+  console.log('resolved Data: ', data)
+  throw new Error('The first Error')
+})
+.then(() = {
+  console.log('This is the second then block')
+  throw new Error('The second Error!')
+})
+.then(() = {
+  console.log('This is the thrid then block')
+  throw new Error('The third Error!')
+})
+// catch zone
+.catch(e = console.error(e))
+.catch(e = {
+  console.error(e)
+  return Promise.reject('rejected Promise') 
+})
+.catch(e = {
+  console.error(e)
+})
+</span></code></pre><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/d383fa38-7453-46fe-94c2-0d5c53332bf2/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134227Z&X-Amz-Expires=3600&X-Amz-Signature=94127766e6226e5d45285dc7c5e2b82975ca243b92521fb0e1ddf35a82e6fdb9&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>하지만 실전에서는 catch zone에서 여러 catch 체이닝을 쓰기보다는 체이닝 과정에서 에러가 발생하면  Error 케이스를 구분하여 한 개의 catch 체이닝으로 해결하는 경우가 더 일반적인 쓰임새.</span></p><p></p><p><span>이제 위 글에서 확인해야 할 잘못된 부분이 있다.</span></p><li><strong><span>resolved Promise와 fulfilled Promise는 같은 말인가?</span></strong><ul></ul></li><p></p><h1><span>Case 3: 중첩 Promise</span></h1><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise - JavaScript | MDN</a></p><p><span>위 문서 예시 코드로 아래와 같은 코드가 있다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">new Promise((resolveOuter) = {
+  resolveOuter(
+    new Promise((resolveInner) = {
+      setTimeout(resolveInner, 1000);
+    }),
+  );
+});</span></code></pre><p></p><h2><span>어떻게 사용할 수 있을까?</span></h2><li><span>순차적으로 비동기 작업을 수행할 때 유용하다.</span><ul></ul></li><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function stepOne() {
+  return new Promise((resolve) = {
+    setTimeout(() = {
+      console.log("Step One Complete");
+      resolve();
+    }, 1000);
+  });
+}
+
+function stepTwo() {
+  return new Promise((resolve) = {
+    setTimeout(() = {
+      console.log("Step Two Complete");
+      resolve();
+    }, 1000);
+  });
+}
+
+stepOne().then(() = {
+  return stepTwo();
+}).then(() = {
+  console.log("All steps complete");
+});</span></code></pre><p><span>결과</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7be2121e-048f-48bc-bab6-91e0e3e87402/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134227Z&X-Amz-Expires=3600&X-Amz-Signature=a9d66171ae6d831b51c4441542461eb9830c7aff302238b4e91d711a0725093c&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>더 응용한다면, 사용자가 선택한 옵션들에 따라 순차적으로 데이터를 fetch하고 싶을 때에도 사용 가능하다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function fetchData(option) {
+  return new Promise((resolve) = {
+    setTimeout(() = {
+      resolve(`Data for ${option}`);
+    }, 1000);
+  });
+}
+
+function processOption(option) {
+  return new Promise((resolve) = {
+    fetchData(option).then((data) = {
+      console.log(data);
+      resolve();
+    });
+  });
+}
+
+processOption("Option 1").then(() = {
+  return processOption("Option 2");
+}).then(() = {
+  console.log("All options processed");
+});
+</span></code></pre><p></p><p><span>결과</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/d7467f38-c295-493a-bfed-489fd78799fc/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241125%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241125T134227Z&X-Amz-Expires=3600&X-Amz-Signature=1b0c2cdcd82f1645504c8de7b7ed97d4d90c4c394838422d604d273925424855&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p></p><p><span>하지만 위와 같이 작성한다면 fetch 로직이 조금만 더 길어질 때 가독성에 악영향을 줄 것이다.</span></p><p><span>이럴 때에는 </span><code><span>async/await</span></code><span>를 사용하는 것이 더 효과적일 수 있다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function fetchData(option) {
+  return new Promise((resolve) = {
+    setTimeout(() = {
+      resolve(`Data for ${option}`);
+    }, 1000);
+  });
+}
+
+async function processOption(option) {
+  const data = await fetchData(option);
+  console.log(data);
+}
+
+async function runOptions() {
+  await processOption("Option 1");
+  await processOption("Option 2");
+  console.log("All options processed");
+}
+
+runOptions();</span></code></pre><p></p><h1><span>참고</span></h1><p><a href="https://github.com/domenic/promises-unwrapping/blob/master/docs/states-and-fates.md">link:https://github.com/domenic/promises-unwrapping/blob/master/docs/states-and-fates.md</a></p><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise - JavaScript | MDN</a></p><p></p></section><hr/><footer><div class="bio"><div data-gatsby-image-wrapper="" style="width:50px;height:50px" class="gatsby-image-wrapper bio-avatar"><div aria-hidden="true" data-placeholder-image="" style="opacity:1;transition:opacity 500ms linear;background-color:#f8f8f8;width:50px;height:50px;position:relative"></div><picture><source type="image/avif" data-srcset="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/a713c/profile.avif 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/322dd/profile.avif 100w" sizes="50px"/><source type="image/webp" data-srcset="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/9afd2/profile.webp 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/e64f1/profile.webp 100w" sizes="50px"/><img data-gatsby-image-ssr="" layout="fixed" data-main-image="" style="opacity:0" sizes="50px" decoding="async" loading="lazy" data-src="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg" data-srcset="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/93e3f/profile.jpg 100w" alt="Profile picture"/></picture><noscript><picture><source type="image/avif" srcSet="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/a713c/profile.avif 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/322dd/profile.avif 100w" sizes="50px"/><source type="image/webp" srcSet="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/9afd2/profile.webp 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/e64f1/profile.webp 100w" sizes="50px"/><img data-gatsby-image-ssr="" layout="fixed" data-main-image="" style="opacity:0" sizes="50px" decoding="async" loading="lazy" src="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg" srcSet="/static/ff0e11a4a46bd63cf32dc054d4e5dd92/2fed4/profile.jpg 50w,/static/ff0e11a4a46bd63cf32dc054d4e5dd92/93e3f/profile.jpg 100w" alt="Profile picture"/></picture></noscript><script type="module">const t="undefined"!=typeof HTMLImageElement&&"loading"in HTMLImageElement.prototype;if(t){const t=document.querySelectorAll("img[data-main-image]");for(let e of t){e.dataset.src&&(e.setAttribute("src",e.dataset.src),e.removeAttribute("data-src")),e.dataset.srcset&&(e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset"));const t=e.parentNode.querySelectorAll("source[data-srcset]");for(let e of t)e.setAttribute("srcset",e.dataset.srcset),e.removeAttribute("data-srcset");e.complete&&(e.style.opacity=1,e.parentNode.parentNode.querySelector("[data-placeholder-image]").style.opacity=0)}}</script></div><p>Written by <strong>Kim Soon Yo</strong></p><p>IT 생태계의 플랑크톤</p><a style="width:fit-content" href="https://github.com/KSoonYo">Github Link</a></div></footer></article></section></main><footer><span style="margin-right:0.5rem">© <!-- -->2024<!-- -->, Built with</span><a style="margin-right:0.5rem" href="https://www.gatsbyjs.com">Gatsby</a><a href="https://developers.notion.com/docs/getting-started">Notion API</a></footer></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/blog/43301004-966a-587a-8a15-4ebdfb37a1cb/";/*]]>*/</script><!-- slice-start id="_gatsby-scripts-1" -->
           <script
             id="gatsby-chunk-mapping"
           >
             window.___chunkMapping="{\"app\":[\"/app-2886a59c6ee6df5e57f7.js\"],\"component---src-pages-404-js\":[\"/component---src-pages-404-js-8c115d0c429bdd03ab57.js\"],\"component---src-pages-index-js\":[\"/component---src-pages-index-js-b441d24e96d73e42aa6e.js\"],\"component---src-pages-using-typescript-tsx\":[\"/component---src-pages-using-typescript-tsx-413d3c6f3da4e04ede52.js\"],\"component---src-templates-blog-post-js\":[\"/component---src-templates-blog-post-js-00359afa011dbd9590e5.js\"]}";
           </script>
-        <script>window.___webpackCompilationHash="717bbb94dd5b27d90646";</script><script src="/webpack-runtime-dbb676d58d4b8f408568.js" async></script><script src="/framework-195f9a31e5a4e6cebf51.js" async></script><script src="/app-2886a59c6ee6df5e57f7.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
+        <script>window.___webpackCompilationHash="0177fc6cecd64d24c58e";</script><script src="/webpack-runtime-9d1a3f3f1d1de51abe41.js" async></script><script src="/framework-195f9a31e5a4e6cebf51.js" async></script><script src="/app-2886a59c6ee6df5e57f7.js" async></script><!-- slice-end id="_gatsby-scripts-1" --></body></html>
