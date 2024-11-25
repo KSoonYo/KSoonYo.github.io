@@ -126,6 +126,11 @@ const renderBlock = async block => {
       }
       return `<pre class="language-${language}"><code class="language-${language}">${codeContent}</code></pre>`
 
+    case "quote":
+      return `<blockquote class="notion-quote">${
+        block.quote?.rich_text ? renderRichText(block.quote.rich_text) : ""
+      }</blockquote>`
+
     default:
       return "" // 알 수 없는 블록 타입은 빈 문자열 반환
   }
