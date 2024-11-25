@@ -25,7 +25,7 @@ jobs:
         run: npm i
 
       - name: remove cache
-      - run: npm run clean
+        run: npm run clean
 
       - name: Build Gatsby site
         run: npm run build
