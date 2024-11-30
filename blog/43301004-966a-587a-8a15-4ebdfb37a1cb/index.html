@@ -287,7 +287,7 @@ stepOne().then(() = {
 }).then(() = {
   console.log("All steps complete");
 });
-</span></code></pre><p><span>결과</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7be2121e-048f-48bc-bab6-91e0e3e87402/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241129%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241129T004045Z&X-Amz-Expires=3600&X-Amz-Signature=4d781653979c6d984b3a680bbec76151fe75980a08a2a840720a3ae210c27557&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>더 응용한다면, 사용자가 선택한 옵션들에 따라 순차적으로 데이터를 fetch하고 싶을 때에도 사용 가능하다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function fetchData(option) {
+</span></code></pre><p><span>결과</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7be2121e-048f-48bc-bab6-91e0e3e87402/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241130%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241130T003933Z&X-Amz-Expires=3600&X-Amz-Signature=ef08247cf9de7c026af8eaaebca4f0d464c17c7f9def7cd4d412958c77b65b9c&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>더 응용한다면, 사용자가 선택한 옵션들에 따라 순차적으로 데이터를 fetch하고 싶을 때에도 사용 가능하다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function fetchData(option) {
   return new Promise((resolve) = {
     setTimeout(() = {
       resolve(`Data for ${option}`);
