@@ -24,7 +24,7 @@ Yes, it's resolved
 </span></code></pre><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
 Yes, it's resolved
 Promise A rejected!
-</span></code></pre><p><span>정답은 3번</span></p><p><span>해설</span></p><li><span>setTimeout은 대표적인 비동기 함수</span><ul></ul></li><li><span>비동기 프로세스와 이벤트 루프에 의해 setTimeout이 처리되는 순서대로 호출된다.</span><ul></ul></li><li><span>위 예시에서는 Promise A를 resolve 처리한 함수가 먼저 호출되었다.</span><ul></ul></li><li><span>Promise A가 resolved 됨에 따라 then이 호출된다.</span><ul></ul></li><li><span>이후에 Promise A를 reject하는 함수가 호출되었으나, Promise A는 이미 상태가 </span><code><span>pending</span></code><span> 상태에서 </span><code><span>fullfilled</span></code><span> 상태가 되었으므로 Promise의 상태가 변경되지 않는다. → 따라서 catch 함수는 실행되지 않는다.</span><ul></ul></li><p></p><img src="https://velog.velcdn.com/images/flashsoon/post/6ea92da3-5c1c-4aad-8aa2-d001752a40f7/image.png" alt="undefined" /><p><span>→ 만약 rejected되는 함수의 타이머 시간을 줄이면 어떻게 될까?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
+</span></code></pre><p><span>정답은 3번</span></p><p><span>해설</span></p><li><span>setTimeout은 대표적인 비동기 함수</span><ul></ul></li><li><span>비동기 프로세스와 이벤트 루프에 의해 setTimeout이 처리되는 순서대로 호출된다.</span><ul></ul></li><li><span>위 예시에서는 Promise A를 resolve 처리한 함수가 먼저 호출되었다.</span><ul></ul></li><li><span>Promise A가 resolved 됨에 따라 then이 호출된다.</span><ul></ul></li><li><span>이후에 Promise A를 reject하는 함수가 호출되었으나, Promise A는 이미 상태가 </span><code><span>pending</span></code><span> 상태에서 </span><code><span>fullfilled</span></code><span> 상태가 되었으므로 Promise의 상태가 변경되지 않는다. → 따라서 catch 함수는 실행되지 않는다.</span><ul></ul></li><img src="https://velog.velcdn.com/images/flashsoon/post/6ea92da3-5c1c-4aad-8aa2-d001752a40f7/image.png" alt="undefined" /><p><span>→ 만약 rejected되는 함수의 타이머 시간을 줄이면 어떻게 될까?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
   setTimeout(() = {
     console.log('Promise A resolved!')
     resolve()
@@ -64,7 +64,7 @@ a.then(() = {
   console.log('No, it\\'s rejected')
 })
 
-</span></code></pre><p><span>fullfilled된 상태의 a가 출력된다.</span></p><img src="https://velog.velcdn.com/images/flashsoon/post/c61f7878-df29-4084-a026-6c712b136b6c/image.png" alt="undefined" /><p></p><p><span>resolved된 Promise A 객체를 </span><code><span>reject()</span></code><span> 호출 후에 확인해보면?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
+</span></code></pre><p><span>fullfilled된 상태의 a가 출력된다.</span></p><img src="https://velog.velcdn.com/images/flashsoon/post/c61f7878-df29-4084-a026-6c712b136b6c/image.png" alt="undefined" /><p><span>resolved된 Promise A 객체를 </span><code><span>reject()</span></code><span> 호출 후에 확인해보면?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
   setTimeout(() = {
     console.log('Promise A resolved!')
     resolve()
@@ -287,7 +287,7 @@ stepOne().then(() = {
 }).then(() = {
   console.log("All steps complete");
 });
-</span></code></pre><p><span>결과</span></p><img src="https://prod-files-secure.s3.us-west-2.amazonaws.com/673168e8-0d7f-4b4b-b2ff-30cbb7c5b0cc/7be2121e-048f-48bc-bab6-91e0e3e87402/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45FSPPWI6X%2F20241211%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241211T004134Z&X-Amz-Expires=3600&X-Amz-Signature=d5f81aedbd3686765c8d59b191e295073dbaf1264d748ae149a45c2bc52ec5c4&X-Amz-SignedHeaders=host&x-id=GetObject" alt="undefined" /><p><span>더 응용한다면, 사용자가 선택한 옵션들에 따라 순차적으로 데이터를 fetch하고 싶을 때에도 사용 가능하다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function fetchData(option) {
+</span></code></pre><p></p><p><span>결과</span></p><img src="https://velog.velcdn.com/images/flashsoon/post/423afa8e-2764-45be-ba26-ad240321abf8/image.png" alt="undefined" /><p><span>더 응용한다면, 사용자가 선택한 옵션들에 따라 순차적으로 데이터를 fetch하고 싶을 때에도 사용 가능하다.</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">function fetchData(option) {
   return new Promise((resolve) = {
     setTimeout(() = {
       resolve(`Data for ${option}`);
