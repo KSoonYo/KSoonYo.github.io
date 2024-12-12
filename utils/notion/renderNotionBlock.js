@@ -75,7 +75,7 @@ const renderRichText = (richTextArray, isMarkedUp = false) => {
     .join("") // 모든 텍스트를 하나의 문자열로 결합
 }
 
-const renderBlock = async block => {
+const renderBlock = async (block, listCounter = 0) => {
   switch (block.type) {
     case "paragraph":
       return `<p>${
@@ -101,18 +101,37 @@ const renderBlock = async block => {
           ? renderRichText(block.heading_3.rich_text)
           : ""
       }</h3>`
+
     case "bulleted_list_item":
-      // 자식 블록 처리
       const childBlocks = await fetchChildBlocks(block.id)
       let renderedChildren = []
       if (Array.isArray(childBlocks) && childBlocks.length > 0) {
-        renderedChildren = await Promise.all(childBlocks.map(renderBlock))
+        renderedChildren = await renderNotionBlocks(childBlocks)
       }
       return `<li>${
         block.bulleted_list_item?.rich_text
           ? renderRichText(block.bulleted_list_item.rich_text)
           : ""
-      }<ul>${renderedChildren.join("")}</ul></li>`
+      }${renderedChildren}</li>`
+
+    case "numbered_list_item":
+      const numberedChildBlocks = await fetchChildBlocks(block.id)
+      let renderedNumberedChildren = ""
+      if (
+        Array.isArray(numberedChildBlocks) &&
+        numberedChildBlocks.length > 0
+      ) {
+        renderedNumberedChildren = await renderNotionBlocks(
+          numberedChildBlocks,
+          listCounter + 1
+        )
+      }
+      return `<li value="${listCounter}">${
+        block.numbered_list_item?.rich_text
+          ? renderRichText(block.numbered_list_item.rich_text)
+          : ""
+      }${renderedNumberedChildren}</li>`
+
     case "image":
       const imageUrl =
         block.image?.file?.url || block.image?.external?.url || ""
@@ -140,12 +159,46 @@ const renderBlock = async block => {
       return "" // 알 수 없는 블록 타입은 빈 문자열 반환
   }
 }
-const renderNotionBlocks = async blocks => {
+const renderNotionBlocks = async (blocks, startCounter = 1) => {
   if (!blocks || !Array.isArray(blocks)) {
     return "" // blocks가 null이거나 배열이 아니면 빈 문자열 반환
   }
-  const renderedBlocks = await Promise.all(blocks.map(renderBlock))
-  return renderedBlocks.join("")
+
+  let html = ""
+  let listCounter = startCounter
+  let inList = null
+
+  for (const block of blocks) {
+    if (block.type === "numbered_list_item") {
+      if (inList !== "ol") {
+        if (inList) html += `</${inList}>`
+        html += "<ol>"
+        inList = "ol"
+      }
+      html += await renderBlock(block, listCounter)
+      listCounter++
+    } else if (block.type === "bulleted_list_item") {
+      if (inList !== "ul") {
+        if (inList) html += `</${inList}>`
+        html += "<ul>"
+        inList = "ul"
+      }
+      html += await renderBlock(block)
+    } else {
+      if (inList) {
+        html += `</${inList}>`
+        inList = null
+        listCounter = 1
+      }
+      html += await renderBlock(block)
+    }
+  }
+
+  if (inList) {
+    html += `</${inList}>`
+  }
+
+  return html
 }
 
 module.exports = { renderNotionBlocks }
