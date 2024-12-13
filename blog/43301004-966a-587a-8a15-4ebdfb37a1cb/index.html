@@ -15,16 +15,16 @@
 }).catch(() = {
   console.log('No, it\\'s rejected')
 })
-</span></code></pre><ol><li value="1"><code><span>Promise A resolved!</span></code><span> 와 </span><code><span>Promise A rejected!</span></code><span> 가 순서대로 출력되고, then과 catch도 순서대로 실행된다.</span></li></ol><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
+</span></code></pre><ol><li value="1"><code><span>Promise A resolved!</span></code><span> 와 </span><code><span>Promise A rejected!</span></code><span> 가 순서대로 출력되고, then과 catch도 순서대로 실행된다.</span><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
 Promise A rejected!
 Yes, it's resolved
 No, it's rejected
-</span></code></pre><ol><li value="1"><code><span>Promise A resolved!</span></code><span> 가 출력되고 then만 실행된다.</span></li></ol><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
+</span></code></pre></li><li value="2"><code><span>Promise A resolved!</span></code><span> 가 출력되고 then만 실행된다.</span><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
 Yes, it's resolved
-</span></code></pre><ol><li value="1"><code><span>Promise A resolved!</span></code><span> 가 출력되고, then이 실행된다. 이후 </span><code><span>Promise A rejected!</span></code><span> 가 출력되지만 catch는 실행되지 않는다.</span></li></ol><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
+</span></code></pre></li><li value="3"><code><span>Promise A resolved!</span></code><span> 가 출력되고, then이 실행된다. 이후 </span><code><span>Promise A rejected!</span></code><span> 가 출력되지만 catch는 실행되지 않는다.</span><pre class="language-shell"><code class="language-shell"><span>Promise A resolved!
 Yes, it's resolved
 Promise A rejected!
-</span></code></pre><p><span>정답은 3번</span></p><p><span>해설</span></p><ul><li><span>setTimeout은 대표적인 비동기 함수</span></li><li><span>비동기 프로세스와 이벤트 루프에 의해 setTimeout이 처리되는 순서대로 호출된다.</span></li><li><span>위 예시에서는 Promise A를 resolve 처리한 함수가 먼저 호출되었다.</span></li><li><span>Promise A가 resolved 됨에 따라 then이 호출된다.</span></li><li><span>이후에 Promise A를 reject하는 함수가 호출되었으나, Promise A는 이미 상태가 </span><code><span>pending</span></code><span> 상태에서 </span><code><span>fullfilled</span></code><span> 상태가 되었으므로 Promise의 상태가 변경되지 않는다. → 따라서 catch 함수는 실행되지 않는다.</span></li></ul><img src="https://velog.velcdn.com/images/flashsoon/post/6ea92da3-5c1c-4aad-8aa2-d001752a40f7/image.png" alt="undefined" /><p><span>→ 만약 rejected되는 함수의 타이머 시간을 줄이면 어떻게 될까?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
+</span></code></pre></li></ol><p><span>정답은 3번</span></p><p><span>해설</span></p><ul><li><span>setTimeout은 대표적인 비동기 함수</span></li><li><span>비동기 프로세스와 이벤트 루프에 의해 setTimeout이 처리되는 순서대로 호출된다.</span></li><li><span>위 예시에서는 Promise A를 resolve 처리한 함수가 먼저 호출되었다.</span></li><li><span>Promise A가 resolved 됨에 따라 then이 호출된다.</span></li><li><span>이후에 Promise A를 reject하는 함수가 호출되었으나, Promise A는 이미 상태가 </span><code><span>pending</span></code><span> 상태에서 </span><code><span>fullfilled</span></code><span> 상태가 되었으므로 Promise의 상태가 변경되지 않는다. → 따라서 catch 함수는 실행되지 않는다.</span></li></ul><img src="https://velog.velcdn.com/images/flashsoon/post/6ea92da3-5c1c-4aad-8aa2-d001752a40f7/image.png" alt="undefined" /><p><span>→ 만약 rejected되는 함수의 타이머 시간을 줄이면 어떻게 될까?</span></p><pre class="language-javascript"><code class="language-javascript"><span data-right-bracket="true">const a = new Promise((resolve, reject)= {
   setTimeout(() = {
     console.log('Promise A resolved!')
     resolve()
