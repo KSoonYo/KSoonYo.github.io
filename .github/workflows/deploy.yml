@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - main
-  schedule:
-    - cron: "0 0 * * *" # 24시간마다 실행
+  # schedule:
+  #   - cron: "0 0 * * *" # 24시간마다 실행
 
 permissions:
   contents: write
